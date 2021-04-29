@@ -1,6 +1,6 @@
 {
   "name": "@shallot/aws-websocket-wrapper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A wrapper on the @shallot/aws module to simplify AWS functions for API Gateway WebSocket APIs",
   "keywords": [
     "typescript",

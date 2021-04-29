@@ -10,7 +10,7 @@
     "middleware"
   ],
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/src/index.d.ts",
   "repository": "https://github.com/ShallotJS/shallot-aws-websocket-wrapper.git",
   "author": "Bailey Tincher <bailey.tincher@btin.io>",
   "license": "MIT",

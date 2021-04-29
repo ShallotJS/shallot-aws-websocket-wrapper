@@ -1,1 +1,1 @@
-# Template Repo for NPM Modules with Typescript
+# Shallot AWS Lambda WebSocket Middleware Wrapper

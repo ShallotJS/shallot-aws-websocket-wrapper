@@ -8,14 +8,14 @@ import ShallotAWSSocketJsonBodyParser, {
   TShallotJSONBodyParserOptions,
 } from './json-body-parser';
 
-export type WebSocketRequestContext<DAuthorizer = undefined> =
+export type WebSocketRequestContext<TAuthorizer = undefined> =
   APIGatewayProxyEvent['requestContext'] & {
     connectionId: string;
-    authorizer: DAuthorizer;
+    authorizer: TAuthorizer;
   };
 
-export type APIGatewayWebSocketEvent<DAuthorizer = undefined> = APIGatewayProxyEvent & {
-  requestContext: WebSocketRequestContext<DAuthorizer>;
+export type APIGatewayWebSocketEvent<TAuthorizer = undefined> = APIGatewayProxyEvent & {
+  requestContext: WebSocketRequestContext<TAuthorizer>;
 };
 
 type ParsedJSON = Record<string | number | symbol, unknown>;
@@ -29,10 +29,11 @@ export type TShallotSocketEvent<
   TQueryStringParameters extends RequestDataBase = unknown,
   TPathParameters extends RequestDataBase = unknown,
   THeaders extends RequestDataBase = unknown,
-  TBody extends RequestDataBase = unknown
+  TBody extends RequestDataBase = unknown,
+  TAuthorizer = undefined
 > = Omit<
   Omit<
-    Omit<Omit<APIGatewayWebSocketEvent, 'body'>, 'queryStringParameters'>,
+    Omit<Omit<APIGatewayWebSocketEvent<TAuthorizer>, 'body'>, 'queryStringParameters'>,
     'pathParameters'
   >,
   'headers'

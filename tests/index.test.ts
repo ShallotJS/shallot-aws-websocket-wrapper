@@ -21,13 +21,13 @@ describe('WebSocket Wrapper', () => {
     succeed: () => undefined,
   };
 
-  const mockHandler: ShallotRawHandler<TShallotSocketEvent<{ test: string }>> =
-    async () => undefined;
+  type MockEvent = TShallotSocketEvent<{ test: string }>;
+  const mockHandler: ShallotRawHandler<MockEvent> = async () => undefined;
 
   test('Smoke test CORS default usage', async () => {
     const wrappedHandler = ShallotAWSSocketWrapper(mockHandler);
 
-    const mockEvent: TShallotSocketEvent = {} as unknown as TShallotSocketEvent;
+    const mockEvent: MockEvent = {} as unknown as MockEvent;
     await wrappedHandler(mockEvent, mockContext, jest.fn());
   });
 });

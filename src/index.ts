@@ -45,20 +45,14 @@ export type TShallotSocketEvent<
   body?: TBody;
 };
 
-type TShallotSocketHandler<TEvent extends TShallotSocketEvent = TShallotSocketEvent> = (
+const ShallotSocketWrapper = <TEvent extends TShallotSocketEvent = TShallotSocketEvent>(
   handler: ShallotRawHandler<TEvent>,
-  successStatusCode?: number,
-  middlewareOpts?: {
+  successStatusCode = 200,
+  middlewareOpts: {
     HttpErrorHandlerOpts?: TShallotErrorHandlerOptions;
     HttpJsonBodyParserOpts?: TShallotJSONBodyParserOptions;
-  }
-) => ShallotAWSHandler<TEvent>;
-
-const ShallotSocketWrapper: TShallotSocketHandler = (
-  handler,
-  successStatusCode = 200,
-  middlewareOpts = {}
-) => {
+  } = {}
+): ShallotAWSHandler<TEvent> => {
   const wrappedResponseHandler: Handler = async (...args) => {
     const res = await handler(...args);
     return {

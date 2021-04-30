@@ -8,15 +8,16 @@ import ShallotAWSSocketJsonBodyParser, {
   TShallotJSONBodyParserOptions,
 } from './json-body-parser';
 
-export type WebSocketRequestContext<TAuthorizer = unknown> =
+export type WebSocketRequestContext<TAuthorizer extends RequestDataBase = unknown> =
   APIGatewayProxyEvent['requestContext'] & {
     connectionId: string;
     authorizer: TAuthorizer;
   };
 
-export type APIGatewayWebSocketEvent<TAuthorizer = unknown> = APIGatewayProxyEvent & {
-  requestContext: WebSocketRequestContext<TAuthorizer>;
-};
+export type APIGatewayWebSocketEvent<TAuthorizer extends RequestDataBase = unknown> =
+  APIGatewayProxyEvent & {
+    requestContext: WebSocketRequestContext<TAuthorizer>;
+  };
 
 type ParsedJSON = Record<string | number | symbol, unknown>;
 export type RequestDataBase = ParsedJSON | unknown;
@@ -30,7 +31,7 @@ export type TShallotSocketEvent<
   TPathParameters extends RequestDataBase = unknown,
   THeaders extends RequestDataBase = unknown,
   TBody extends RequestDataBase = unknown,
-  TAuthorizer = unknown
+  TAuthorizer extends RequestDataBase = unknown
 > = Omit<
   Omit<
     Omit<Omit<APIGatewayWebSocketEvent<TAuthorizer>, 'body'>, 'queryStringParameters'>,
@@ -44,15 +45,14 @@ export type TShallotSocketEvent<
   body?: TBody;
 };
 
-type TShallotSocketHandler = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  handler: ShallotRawHandler<any>,
+type TShallotSocketHandler<TEvent extends TShallotSocketEvent = TShallotSocketEvent> = (
+  handler: ShallotRawHandler<TEvent>,
   successStatusCode?: number,
   middlewareOpts?: {
     HttpErrorHandlerOpts?: TShallotErrorHandlerOptions;
     HttpJsonBodyParserOpts?: TShallotJSONBodyParserOptions;
   }
-) => ShallotAWSHandler<TShallotSocketEvent>;
+) => ShallotAWSHandler<TEvent>;
 
 const ShallotSocketWrapper: TShallotSocketHandler = (
   handler,

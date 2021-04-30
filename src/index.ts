@@ -1,4 +1,4 @@
-import type { APIGatewayProxyEvent, Handler } from 'aws-lambda';
+import type { APIGatewayProxyEvent, APIGatewayProxyResult, Handler } from 'aws-lambda';
 import type { TShallotErrorHandlerOptions } from '@shallot/http-error-handler/dist/aws';
 
 import ShallotAWS, { ShallotAWSHandler } from '@shallot/aws';
@@ -52,7 +52,7 @@ const ShallotSocketWrapper = <TEvent extends TShallotSocketEvent = TShallotSocke
     HttpErrorHandlerOpts?: TShallotErrorHandlerOptions;
     HttpJsonBodyParserOpts?: TShallotJSONBodyParserOptions;
   } = {}
-): ShallotAWSHandler<TEvent> => {
+): ShallotAWSHandler<TEvent, APIGatewayProxyResult> => {
   const wrappedResponseHandler: Handler = async (...args) => {
     const res = await handler(...args);
     return {

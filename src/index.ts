@@ -54,10 +54,9 @@ const ShallotSocketWrapper = <TEvent extends TShallotSocketEvent = TShallotSocke
   } = {}
 ): ShallotAWSHandler<TEvent, APIGatewayProxyResult> => {
   const wrappedResponseHandler: Handler = async (...args) => {
-    const res = await handler(...args);
+    await handler(...args);
     return {
       statusCode: successStatusCode,
-      body: JSON.stringify(res),
     };
   };
 

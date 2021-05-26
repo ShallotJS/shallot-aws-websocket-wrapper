@@ -47,15 +47,18 @@ export type TShallotSocketEvent<
 
 const ShallotSocketWrapper = <TEvent extends TShallotSocketEvent = TShallotSocketEvent>(
   handler: ShallotRawHandler<TEvent>,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _successStatusCode = 200,
+  successStatusCode = 200,
   middlewareOpts: {
     HttpErrorHandlerOpts?: TShallotErrorHandlerOptions;
     HttpJsonBodyParserOpts?: TShallotJSONBodyParserOptions;
   } = {}
 ): ShallotAWSHandler<TEvent, APIGatewayProxyResult> => {
   const wrappedResponseHandler: Handler = async (...args) => {
-    await handler(...args);
+    const res = await handler(...args);
+    return {
+      statusCode: successStatusCode,
+      body: res == null ? undefined : JSON.stringify(res),
+    };
   };
 
   const wrapper = ShallotAWS(wrappedResponseHandler)

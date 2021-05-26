@@ -47,7 +47,8 @@ export type TShallotSocketEvent<
 
 const ShallotSocketWrapper = <TEvent extends TShallotSocketEvent = TShallotSocketEvent>(
   handler: ShallotRawHandler<TEvent>,
-  successStatusCode = 200,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _successStatusCode = 200,
   middlewareOpts: {
     HttpErrorHandlerOpts?: TShallotErrorHandlerOptions;
     HttpJsonBodyParserOpts?: TShallotJSONBodyParserOptions;
